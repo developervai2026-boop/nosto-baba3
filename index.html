@@ -1,0 +1,747 @@
+I have updated the file with your specific configuration details.
+
+**Note:** Since you are using a standalone HTML file (without a build tool like Webpack or Vite), I have kept the **CDN import links** (e.g., `https://www.gstatic.com/...`) so the browser can understand the code, but I have replaced the placeholder keys with the **real ones you provided**.
+
+I also added the initialization for **Realtime Database** and **Storage**, as your configuration includes URLs for those services.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamline - Modern Digital Solutions</title>
+    <!-- Importing Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Importing Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-color: #4f46e5; /* Indigo */
+            --primary-hover: #4338ca;
+            --secondary-color: #10b981; /* Emerald */
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+            --max-width: 1200px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .text-center { text-align: center; }
+        
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark-bg);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 60px auto;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding-top: 160px; /* Account for fixed header */
+            padding-bottom: 100px;
+            background: linear-gradient(to bottom, #eff6ff, #ffffff);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            font-weight: 800;
+            color: var(--dark-bg);
+            margin-bottom: 24px;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+            max-width: 540px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .hero-image {
+            flex: 1;
+        }
+
+        .hero-image img {
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features {
+            background-color: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 32px;
+            border-radius: var(--radius);
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: var(--dark-bg);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* --- PRICING SECTION --- */
+        .pricing {
+            background-color: var(--light-bg);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: start;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary-color);
+            box-shadow: var(--shadow-lg);
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-bg);
+            margin: 20px 0 10px;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .features-list {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .features-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        .features-list li i {
+            color: var(--secondary-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #94a3b8;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 968px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text p {
+                margin: 0 auto 32px auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fa-solid fa-layer-group"></i> Streamline
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <!-- Added ID for Firebase tracking hook -->
+                    <a href="#pricing" class="btn btn-primary nav-cta-btn" style="padding: 10px 20px; font-size: 0.9rem;">Get Started</a>
+                    <div class="mobile-menu-btn">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Scale your business with intelligent tools.</h1>
+                        <p>Streamline helps you automate workflows, analyze data, and grow your revenue with our all-in-one digital platform.</p>
+                        <div class="hero-buttons">
+                            <!-- Added class for Firebase tracking hook -->
+                            <a href="#pricing" class="btn btn-primary track-cta">Start Free Trial</a>
+                            <a href="#features" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <!-- Random tech/office image -->
+                        <img src="https://picsum.photos/seed/tech/600/400" alt="Dashboard Preview" width="600" height="400">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section-padding features">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title">Everything you need</h2>
+                    <p class="section-subtitle">We've crafted a powerful set of tools to help you manage your business efficiently.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <h3>Real-time Analytics</h3>
+                        <p>Track your performance with our intuitive dashboard. Get insights that matter to your bottom line.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3>Lightning Fast</h3>
+                        <p>Optimized for speed. Our infrastructure ensures your data is accessible in milliseconds.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3>Bank-grade Security</h3>
+                        <p>Your data is safe with us. We use end-to-end encryption for all sensitive information.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3>Team Collaboration</h3>
+                        <p>Invite your team, set permissions, and work together seamlessly in real-time.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3>Cloud Sync</h3>
+                        <p>Access your work from anywhere. Automatic backups mean you never lose progress.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <h3>24/7 Support</h3>
+                        <p>Our dedicated support team is always online to help you solve any issues.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="section-padding pricing">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title">Simple, transparent pricing</h2>
+                    <p class="section-subtitle">No hidden fees. Cancel anytime. Choose the plan that fits your needs.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Basic Plan -->
+                    <div class="pricing-card">
+                        <h3>Starter</h3>
+                        <div class="price">$0<span>/mo</span></div>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Perfect for individuals</p>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-check"></i> 1 Project</li>
+                            <li><i class="fa-solid fa-check"></i> Basic Analytics</li>
+                            <li><i class="fa-solid fa-check"></i> Community Support</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline" style="width: 100%;">Sign Up Free</a>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="pricing-card popular">
+                        <div class="badge">Most Popular</div>
+                        <h3>Pro</h3>
+                        <div class="price">$29<span>/mo</span></div>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">For growing teams</p>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-check"></i> 10 Projects</li>
+                            <li><i class="fa-solid fa-check"></i> Advanced Analytics</li>
+                            <li><i class="fa-solid fa-check"></i> Priority Email Support</li>
+                            <li><i class="fa-solid fa-check"></i> Custom Domains</li>
+                        </ul>
+                        <!-- Added class for tracking -->
+                        <a href="#" class="btn btn-primary track-cta" style="width: 100%;">Get Started</a>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="pricing-card">
+                        <h3>Enterprise</h3>
+                        <div class="price">$99<span>/mo</span></div>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">For large organizations</p>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-check"></i> Unlimited Projects</li>
+                            <li><i class="fa-solid fa-check"></i> Dedicated Account Manager</li>
+                            <li><i class="fa-solid fa-check"></i> 24/7 Phone Support</li>
+                            <li><i class="fa-solid fa-check"></i> SSO & Security Audits</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline" style="width: 100%;">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="section-padding" style="background-color: var(--primary-color); color: var(--white); text-align: center;">
+            <div class="container">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Ready to boost your productivity?</h2>
+                <p style="margin-bottom: 30px; font-size: 1.2rem; opacity: 0.9;">Join 10,000+ companies who trust Streamline.</p>
+                <a href="#" class="btn track-cta" style="background-color: var(--white); color: var(--primary-color);">Get Started for Free</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: var(--white); margin-bottom: 20px; display: inline-block;">
+                        <i class="fa-solid fa-layer-group"></i> Streamline
+                    </a>
+                    <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6;">
+                        Making digital transformation accessible for businesses of all sizes.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Legal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fa-brands fa-github"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Streamline Inc. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- FIREBASE CONFIGURATION WITH YOUR REAL KEYS -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        // We use the CDN versions so this works in a standalone HTML file
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        
+        // Import Database and Storage since your config includes them
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        // Your web app's Firebase configuration (Inserted from your message)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDWkYGwuZuS5QuEuisdA1mLR19cuPVObtk",
+            authDomain: "nosto-87faa.firebaseapp.com",
+            databaseURL: "https://nosto-87faa-default-rtdb.firebaseio.com",
+            projectId: "nosto-87faa",
+            storageBucket: "nosto-87faa.firebasestorage.app",
+            messagingSenderId: "1050205361996",
+            appId: "1:1050205361996:web:7c9e04eae675df835261e9"
+        };
+
+        // Initialize Firebase
+        let app, analytics, database, storage;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            console.log("%c Firebase Initialized! ", "background: #4CAF50; color: #fff; padding: 4px; border-radius: 4px;");
+
+            // Initialize Analytics
+            analytics = getAnalytics(app);
+            console.log("Analytics active");
+
+            // Initialize Realtime Database
+            database = getDatabase(app);
+            console.log("Database connected");
+
+            // Initialize Storage
+            storage = getStorage(app);
+            console.log("Storage connected");
+
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
+        }
+
+        // --- EXAMPLE: WRITING TO DATABASE ---
+        // This function writes a test value to your Realtime Database when a CTA is clicked
+        const ctaButtons = document.querySelectorAll('.track-cta');
+        
+        ctaButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                console.log("CTA Clicked. Attempting to log event & write to DB...");
+                
+                // 1. Log Analytics Event
+                if (analytics) {
+                    logEvent(analytics, 'select_content', {
+                        content_type: 'button',
+                        item_id: 'get_started_cta'
+                    });
+                }
+
+                // 2. Write to Realtime Database (Example: increment a 'clicks' counter)
+                if (database) {
+                    const clicksRef = ref(database, 'site_stats/button_clicks');
+                    // Note: In a real app, you would use 'increment' from firebase/database
+                    // Here we just set a timestamp for demonstration
+                    set(clicksRef, {
+                        last_clicked: new Date().toISOString(),
+                        count: 1 // This overwrites, use transaction/increment for real counters
+                    }).then(() => {
+                        console.log("Data written to Realtime Database!");
+                    }).catch((error) => {
+                        console.error("DB Write Error:", error);
+                        // Common error: Database Rules not set to 'read/write: true'
+                        console.warn("Hint: Check your Firebase Console > Realtime Database > Rules. Ensure they allow read/write for testing.");
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```
